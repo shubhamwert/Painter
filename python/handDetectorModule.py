@@ -19,17 +19,41 @@ class HandDetector:
         
                     
             return frame,mask
-    def handPostion(self,frame,hand_num=0,draw=True):
+    def handPostion(self,frame,hand_num=0):
         
-        landmarks=[]
+        landmarks={}
         if self.hand.multi_hand_landmarks:
                 myHand=self.hand.multi_hand_landmarks[hand_num]
                 # for h in self.hand.multi_hand_landmarks[hand_num]:
                 for ids,lm in enumerate(myHand.landmark):
                             h,w,c=frame.shape
                             cx,cy= int(lm.x*w),int(lm.y*h)
-                            landmarks.append([ids,cx,cy,lm.z])
+                            landmarks.update({ids:[cx,cy,lm.z]})
 
         return landmarks
+    def isup(self,frame,hand_num:list=None):
+        '''
+                Error in detecting thumbs up,
+                can use thumb as ref
+        '''
+        results={}
+        for h in  hand_num:
+            
+            lms=self.handPostion(frame,h)
+            #take tip of finger
+            plm=lms[0]
+            keys=[4*i+1 for i in range(5)]
+            for k in keys:
+                ref=lms[k+1]
+                tip=lms[k+3]
+                dist1=self.dist(plm,tip)
+                dist2=self.dist(plm,ref)
 
+                results.update({
+                                k:True if dist1>dist2 else False
+                     })
+        return results
+    def dist(self,a,b):
+        return ((a[0]-b[0])**2+(a[1]-b[1])**2)**(1/2)
+  
 

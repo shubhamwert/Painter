@@ -14,20 +14,14 @@ while True:
     frame,mask=hands.DetectHand(frame)
     index=hands.handPostion(frame,0)
     if len(index)>0:
-        # [x1,y1],[x2,y2]=index[4][0:2],index[8][0:2]
-        # cv2.circle(mask,(x1,y1),15,(255,0,255),cv2.FILLED)
-        # cv2.circle(mask,(x2,y2),15,(255,0,255),cv2.FILLED)
-        # cv2.line(mask,(x1,y1),(x2,y2),(255,0,0),3)
-        # d=dist([x1,y1],[x2,y2])
+        
         r=hands.isup(frame,[0])
-        print(r)
-        # cv2.putText(mask,)
+        c=sum(r.values())-1
+        cv2.putText(mask,str(c),org=(50,50),fontFace=cv2.FONT_HERSHEY_SIMPLEX,thickness=3,fontScale=2,color=(32,255,2))
 
 
-    # cv2.imshow('Image',frame)
     cv2.imshow('mask',mask)
     
-    # masked=cv2.bitwise_and(frame,frame,mask=mask)
     if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
 cap.release()
