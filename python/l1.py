@@ -14,11 +14,11 @@ while True:
     frame,mask=hands.DetectHand(frame)
     index=hands.handPostion(frame,0)
     if len(index)>0:
-        # [x1,y1],[x2,y2]=index[4][0:2],index[8][0:2]
-        # cv2.circle(mask,(x1,y1),15,(255,0,255),cv2.FILLED)
-        # cv2.circle(mask,(x2,y2),15,(255,0,255),cv2.FILLED)
-        # cv2.line(mask,(x1,y1),(x2,y2),(255,0,0),3)
-        # d=dist([x1,y1],[x2,y2])
+        [x1,y1],[x2,y2]=index[4][0:2],index[8][0:2]
+        cv2.circle(mask,(x1,y1),15,(255,0,255),cv2.FILLED)
+        cv2.circle(mask,(x2,y2),15,(255,0,255),cv2.FILLED)
+        cv2.line(mask,(x1,y1),(x2,y2),(255,0,0),3)
+        d=dist([x1,y1],[x2,y2])
         r=hands.isup(frame,[0])
         print(r)
         # cv2.putText(mask,)

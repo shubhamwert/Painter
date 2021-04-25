@@ -42,15 +42,14 @@ class HandDetector:
             lms=self.handPostion(frame,h)
             #take tip of finger
             plm=lms[0]
-            keys=[4*i+1 for i in range(5)]
-            for k in keys:
-                ref=lms[k+1]
-                tip=lms[k+3]
+            for i in range(5):
+                ref=lms[4*i+2]
+                tip=lms[4*i+4]
                 dist1=self.dist(plm,tip)
                 dist2=self.dist(plm,ref)
 
                 results.update({
-                                k:True if dist1>dist2 else False
+                                i:True if dist1>dist2 else False
                      })
         return results
     def dist(self,a,b):
