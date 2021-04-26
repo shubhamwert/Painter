@@ -29,11 +29,12 @@ while True:
                 continue
             cv2.line(temp,(x1,y1),(xo,yo),(255,0,255),3)
             xo,yo=x1,y1
-    mask+=temp
-    
-    
+        else:
+            xo,yo=None,None
+    mask=mask+temp
+    frame=cv2.addWeighted(frame,0.6,mask.astype(np.uint8),0.4,0)
     cv2.imshow('frame',frame)
-    cv2.imshow('text',mask)
+    # cv2.imshow('text',temp)
 
     # cv2.imshow('mask',mask)
 
