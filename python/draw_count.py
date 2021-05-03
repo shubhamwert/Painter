@@ -31,6 +31,7 @@ mode=modes['select']
 colors={'red':(255,0,0),'blue':(0,255,0),'green':(0,0,255)}
 color_selected='red'
 k=False
+prediction=0
 while True:
     ret,frame=cap.read()
     frame=cv2.flip(frame,1)
@@ -52,9 +53,8 @@ while True:
                     temp=temp/255.0
                     temp=temp[:,:,0]
                     n=Prediction_Number.predict(temp.reshape([1,28,28,1]))
-                    print('|'*10,'\n',n[0].argmax())
-                    plt.imshow(temp)
-                    plt.show()
+                    # print('|'*10,'\n',n[0].argmax())
+                    prediction=10*prediction+n[0].argmax()
                     temp=None
                     k=False
                     continue
@@ -74,6 +74,8 @@ while True:
     # mask=mask+temp
     frame=cv2.addWeighted(frame,0.6,temp.astype(np.uint8),0.4,0)
     # temp=mask
+    cv2.putText(frame,str(prediction),org=(50,50),fontFace=cv2.FONT_HERSHEY_SIMPLEX,thickness=3,fontScale=2,color=(32,255,2))
+    
     cv2.imshow('frame',frame)
     # cv2.imshow('text',temp)
 
