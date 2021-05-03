@@ -1,7 +1,6 @@
 from handDetectorModule import *
 import cv2
 
-
 cap = cv2.VideoCapture(0)
 hands=HandDetector(conf=0.75,tracking_conf=0.75,mode=True)
 temp=None
