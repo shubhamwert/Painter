@@ -10,7 +10,7 @@ def Croped(img):
     x2=sorted(a[0])[-1]
     y1=sorted(a[1])[0]
     y2=sorted(a[1])[-1]
-    return cv2.resize(img[x1:x2,y1:y2],(28,28))
+    return cv2.resize(img[x1-10:x2+10,y1-10:y2+10],(28,28))
 cap = cv2.VideoCapture(0)
 hands=HandDetector(conf=0.75,tracking_conf=0.75,mode=True)
 temp=None
@@ -50,10 +50,11 @@ while True:
                     temp=Croped(temp)
                    
                     temp=temp/255.0
-                    temp=temp[:,:,0]+temp[:,:,1]+temp[:,:,2]
+                    temp=temp[:,:,0]
                     n=Prediction_Number.predict(temp.reshape([1,28,28,1]))
                     print('|'*10,'\n',n[0].argmax())
-
+                    plt.imshow(temp)
+                    plt.show()
                     temp=None
                     k=False
                     continue
@@ -68,12 +69,12 @@ while True:
                 if xo is None:
                     xo,yo=x1,y1
                     continue
-                cv2.line(temp,(x1,y1),(xo,yo),(255,0,255),3,)
+                cv2.line(temp,(x1,y1),(xo,yo),(255,0,255),9,10)
                 xo,yo=x1,y1
     # mask=mask+temp
-    # frame=cv2.addWeighted(frame,0.6,mask.astype(np.uint8),0.4,0)
+    frame=cv2.addWeighted(frame,0.6,temp.astype(np.uint8),0.4,0)
     # temp=mask
-    cv2.imshow('frame',temp)
+    cv2.imshow('frame',frame)
     # cv2.imshow('text',temp)
 
     # cv2.imshow('mask',mask)
