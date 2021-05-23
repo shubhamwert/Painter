@@ -2,10 +2,10 @@ from handDetectorModule import *
 import cv2
 import tensorflow.keras.models as Models
 from matplotlib import pyplot as plt
-
+import numpy as np
 def Croped(img):
     a=np.where(img==255)
-    # print(len(a))
+    print(len(a))
     x1=sorted(a[0])[0]
     x2=sorted(a[0])[-1]
     y1=sorted(a[1])[0]
@@ -46,7 +46,6 @@ while True:
         r=hands.isup(frame,[0])
         if r[4] is True & r[3] is True & k is True:
                 if all(temp.shape) > 0 :
-                    print(k)
 
                     temp=Croped(temp)
                    
@@ -71,15 +70,11 @@ while True:
                     continue
                 cv2.line(temp,(x1,y1),(xo,yo),(255,0,255),9,10)
                 xo,yo=x1,y1
-    # mask=mask+temp
     frame=cv2.addWeighted(frame,0.6,temp.astype(np.uint8),0.4,0)
-    # temp=mask
     cv2.putText(frame,str(prediction),org=(50,50),fontFace=cv2.FONT_HERSHEY_SIMPLEX,thickness=3,fontScale=2,color=(32,255,2))
     
     cv2.imshow('frame',frame)
-    # cv2.imshow('text',temp)
 
-    # cv2.imshow('mask',mask)
     c=temp
     
     if cv2.waitKey(1) & 0xFF == ord('q'):

@@ -7,17 +7,7 @@ temp=None
 cap.set(3, 1080)
 cap.set(4, 720)
 xo,yo=None,None
-modes={
-        'select':-1,
-        'red':0,
-        'blue':1,
-        'green':2
 
-
-}
-mode=modes['select']
-colors={'red':(255,0,0),'blue':(0,255,0),'green':(0,0,255)}
-color_selected='red'
 while True:
     ret,frame=cap.read()
     frame=cv2.flip(frame,1)
@@ -35,20 +25,17 @@ while True:
         if r[1] and r[2] is True:
             mode=modes['select']
             
-        else 
+        else:
             if r[1] is True or r[2] is False:
-
-
-
-
                 [x1,y1]=[int((a+b)/2) for a,b in zip(index[8][0:2],index[12][0:2])]
                 if xo is None:
                     xo,yo=x1,y1
                     continue
+                else:
+                    xo , yo=None,None
                 cv2.line(temp,(x1,y1),(xo,yo),(255,0,255),3,)
                 xo,yo=x1,y1
-                else:
-                    xo,yo=None,None
+                
     mask=mask+temp
     frame=cv2.addWeighted(frame,0.6,mask.astype(np.uint8),0.4,0)
     cv2.imshow('frame',frame)
